@@ -1,243 +1,335 @@
-# AI-Native Monorepo Starter Kit
+# 🏠🤖 Homelab AIOps Platform
 
-## 🚀 Overview
+> **Unified Edge AI Operations Platform** - From data ingestion to model deployment, monitoring, and feedback loops - all orchestrated through a single, powerful monorepo.
 
-This repository provides a robust, pre-configured Nx monorepo designed for building **AI-native applications** with a polyglot stack. It's tailored for individual developers or small teams seeking high productivity, automation, and a "batteries-included" experience without the usual configuration headaches.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Nx](https://img.shields.io/badge/built%20with-Nx-143055.svg)](https://nx.dev/)
 
-We've integrated a modern Python toolchain (`uv`, `ruff`, `mypy`, `pytest`, `pyenv`) and orchestrated it seamlessly with Nx for a streamlined developer workflow, automated CI/CD, and simplified microservices transformation. This setup minimizes "fuss" so you can focus on building your core AI products.
+---
 
------
+## 🎯 Vision
 
-## ✨ Features
+**Stop fighting fragmented AI toolchains.** Homelab AIOps unifies the entire ML lifecycle—from data versioning to edge inference—in a cohesive, Jetson-optimized platform that scales from your homelab to production fleets.
 
-  * **Nx Monorepo:** Centralized codebase for React frontends, Python backends, and infrastructure-as-code.
-  * **Python Toolchain:**
-      * **`uv`**: Blazing-fast dependency management and virtual environment orchestration.
-      * **`ruff`**: High-performance Python linter and formatter.
-      * **`mypy`** (or Pyre): Strict static type checking for Python.
-      * **`pytest`**: Robust testing framework with coverage.
-      * **`pyenv`**: Seamless Python version management.
-  * **Automated Setup:** A single `make setup` command orchestrates environment bootstrapping, Nx plugin generation, and pre-commit hook installation, with core logic now implemented in Python for cross-platform reliability.
-  * **Simplified Project Generation:** Use `make app` and `make lib` for instantly configured Python applications and libraries.
-  * **Intelligent Task Execution:** Leverages Nx's affected commands for fast, incremental linting, testing, and building across your monorepo.
-  * **Pre-commit Hooks:** Enforces code quality locally before commits, preventing CI failures.
-  * **CI/CD Ready:** Designed for straightforward integration with platforms like GitHub Actions.
-  * **IaC Integration:** High-level `make` commands for orchestrating Terraform, Pulumi, and Ansible within the monorepo.
-  * **Microservice Transformation:** Simplified `make containerize` command to build Docker images for any application.
+### 🎪 What Makes This Special?
 
------
+- 🔄 **End-to-End ML Lifecycle** - Data → Training → Deployment → Monitoring → Feedback
+- 🚀 **Edge-First Design** - Optimized for NVIDIA Jetson Orin with sub-200ms inference
+- 🧩 **Modular Architecture** - Swap backends, validators, or reward functions without breaking pipelines
+- 📊 **Built-in Observability** - Comprehensive telemetry, tracing, and monitoring out-of-the-box
+- 🔁 **Automated Feedback Loops** - Human-in-the-loop training with automatic retraining triggers
 
-## 🛠️ Prerequisites
+---
 
-Before you clone and conquer, ensure you have these essentials installed:
+## 🏗️ Architecture Overview
 
-  * **Git:** Version control is fundamental.
-  * **Node.js & pnpm:** Node.js LTS (e.g., v20) and `pnpm` (install via `npm install -g pnpm`).
-  * **Pyenv:** Follow the official installation guide: [https://github.com/pyenv/pyenv\#installation](https://www.google.com/search?q=https://github.com/pyenv/pyenv%23installation). **Crucially, add `pyenv` initialization to your shell's config (`.bashrc`, `.zshrc`, etc.) and restart your terminal.**
-  * **GNU Make:** Usually pre-installed on Linux/macOS. For Windows, consider WSL or Chocolatey to install.
+```mermaid
+graph TB
+    subgraph "🏠 Homelab AIOps Platform"
+        FS[📊 Feature Store]
+        ORCH[🎭 Orchestrator]
+        FT[🎯 Fine-Tuning]
+        INFERENCE[⚡ Inference/LiteLLM]
+        PG[🧠 Prompt Graph/DSPy]
+        FB[💬 Feedback]
+        TEL[📈 Telemetry]
+    end
 
------
+    subgraph "🔧 Shared Infrastructure"
+        LIBS[📚 Shared Libraries]
+        TOOLS[🛠️ Tools & Scripts]
+    end
 
-## 🚀 Getting Started
+    FS --> ORCH
+    ORCH --> FT
+    FT --> INFERENCE
+    INFERENCE --> PG
+    PG --> FB
+    FB --> ORCH
+    TEL --> ORCH
 
-Follow these steps to get your AI-Native Monorepo up and running:
+    LIBS -.-> FS
+    LIBS -.-> ORCH
+    LIBS -.-> FT
+    LIBS -.-> INFERENCE
+    LIBS -.-> PG
+    LIBS -.-> FB
+    LIBS -.-> TEL
+```
 
-### 📋 Step 1: Create Your New Project
+---
 
-1.  **Clone this project template:**
+## 🚀 Quick Start
 
-    ```bash
-    git clone https://github.com/SPRIME01/AI-Native-Monorepo-Starter-Kit.git <new_project_directory_name>
-    ```
+### 📋 Prerequisites
 
-    This pulls down the template and initializes it as a Git repository, still linked to the original.
+Ensure you have these essentials installed:
 
-2.  **Navigate into the New Project Directory:**
+- 🐍 **Python 3.11+** with `pyenv` for version management
+- 📦 **Node.js 20+** and `pnpm` (`npm install -g pnpm`)
+- 🔧 **GNU Make** (pre-installed on Linux/macOS, use WSL on Windows)
+- 🐳 **Docker** (for containerization and deployment)
+- 🎯 **Git** (for version control)
+
+### ⚡ One-Command Setup
 
-    ```bash
-    cd <new_project_directory_name>
-    ```
+```bash
+# Clone and setup the entire platform
+git clone https://github.com/SPRIME01/homelab-aiops.git
+cd homelab-aiops
+make setup
+```
 
-3.  **Delete the `.git` Folder:**
+🎉 **That's it!** The setup command automatically:
+- 🔧 Initializes the Nx workspace with Python plugins
+- 🐍 Sets up Python virtual environment with `pyenv` and `uv`
+- 📝 Installs pre-commit hooks for code quality
+- 🧩 Configures custom generators for consistent project structure
 
-    This step is crucial to break the link with the original template repository, allowing you to start fresh with your own project history.
-    
-    **If you're on macOS/Linux, run:**
-    ```bash
-    rm -rf .git
-    ```
-    **If you're on Windows, use PowerShell:**
-    ```powershell
-    Remove-Item -Recurse -Force .git
-    ```
+---
 
-    Your project is now just a plain directory with files, no longer a Git repository. This is where your new, independent project truly begins.
+## 🎮 Daily Operations
 
-4.  **Initialize a New Git Repository:**
+### 🆕 Creating New Components
 
-    ```bash
-    git init
-    ```
+```bash
+# Generate a new AI application
+make app NAME=model-evaluator
 
-    Now, Git sees this as a brand new, empty repository. No history, no remote connections yet.
+# Generate a shared library
+make lib NAME=inference-utils
+```
 
-5.  **Add Your Files to the New Repository:**
+### 🏃‍♂️ Development Workflow
 
-    ```bash
-    git add .
-    ```
+```bash
+# Lint all affected projects
+make lint
 
-    This stages all your template files (which are now your new project's files) for the first commit.
+# Type-check with mypy
+make typecheck
 
-6.  **Make Your Initial Commit:**
+# Run tests for changed code
+make test
 
-    ```bash
-    git commit -m "Initial commit for new project based on template"
-    ```
+# Build affected projects
+make build
 
-    This creates the very first commit for *your new project's unique history*.
+# Serve a specific application locally
+make serve PROJECT=inference
+```
 
-7.  **Link to a New Remote (e.g., GitHub/GitLab/etc.):**
-    If you're going to host this new project online, create an *empty* repository on your chosen platform (GitHub, GitLab, etc.). Then, link your local repo to it:
+### 🔍 Project Visualization
 
-    ```bash
-    git remote add origin <url_to_your_new_empty_remote_repo>
-    git branch -M main # Or 'master' if you prefer, but 'main' is the modern default
-    git push -u origin main
-    ```
+```bash
+# Open interactive dependency graph
+make graph
+```
 
-    This pushes your new project's initial commit to its own dedicated remote.
+---
+
+## 🏗️ Platform Components
 
-### ⚙️ Step 2: Setup Your Development Environment
+### 📊 **Feature Store** (`apps/feature-store`)
+- 🗄️ Data ingestion and versioning
+- 🔄 ETL pipeline management
+- 📈 Feature engineering and validation
+- 🔐 Data encryption and compliance
 
-2.  **Run the One-Time Setup:**
-    This `make` command automates everything, leveraging a Python script (`scripts/setup.py`) for cross-platform compatibility: Nx initialization, Python environment setup (pyenv, uv), custom Nx generator creation, and pre-commit hook installation.
+### 🎭 **Orchestrator** (`apps/orchestrator`)
+- 🔄 Pipeline coordination and scheduling
+- 📋 Workflow management with ZenML integration
+- 📊 MLFlow experiment tracking
+- 🚨 Event-driven retraining triggers
 
-    ```bash
-    make setup
-    ```
+### 🎯 **Fine-Tuning** (`apps/fine-tuning`)
+- 🚀 LlamaFactory integration for model training
+- 📊 Experiment tracking and model comparison
+- 🏆 Automated model evaluation and selection
+- 📦 Model registry integration
 
-      * *Initial run might take a few minutes as it downloads dependencies and sets up environments.*
-      * *If `uv` installation via `pip` fails, you might need to install Rust toolchain first and set `RUST_TOOLCHAIN_UV_INSTALL ?= true` in the Makefile, then retry `make setup`.*
+### ⚡ **Inference** (`apps/inference/liteLLM`)
+- 🔀 LiteLLM routing to multiple backends
+- 🏥 Health checks and automatic failover
+- 📝 OpenAI-compatible API endpoints
+- ⚡ Sub-200ms edge inference on Jetson
 
------
+### 🧠 **Prompt Graph** (`apps/prompt-graph/dspy`)
+- 🎯 DSPy prompt optimization
+- 📊 A/B testing for prompt performance
+- 🔄 Iterative improvement cycles
+- 📈 Performance tracking and analytics
+
+### 💬 **Feedback** (`apps/feedback`)
+- 👥 Human-in-the-loop feedback collection
+- 🔄 A/B testing interface
+- 📊 Preference learning and RLHF
+- 🔔 Automatic retraining triggers
 
-## ⚡ Daily Workflow
+### 📈 **Telemetry** (`apps/telemetry`)
+- 📊 Prometheus metrics collection
+- 📝 Loki log aggregation
+- 🔍 Jaeger distributed tracing
+- 📊 Grafana dashboards
 
-Here's how to interact with your monorepo for daily development:
+---
 
-### 🆕 Project Generation
+## 🚀 Infrastructure & Deployment
+
+### 🏗️ Infrastructure as Code
 
-  * **New Python Application:**
+```bash
+# Plan infrastructure changes
+make infra-plan TARGET=jetson-cluster
 
-    ```bash
-    make app NAME=my-fastapi-service
-    ```
+# Apply infrastructure
+make infra-apply TARGET=jetson-cluster
 
-    *This command automatically generates the app, configures it with `ruff`, `mypy`, `pytest`, and installs its initial dependencies using `uv`.*
-
-  * **New Python Library:**
-
-    ```bash
-    make lib NAME=my-shared-data-models
-    ```
-
-    *This command works similarly for Python libraries.*
-
-### 🏃 Running Tasks
-
-  * **Lint all affected projects:**
-
-    ```bash
-    make lint
-    ```
-
-  * **Type-check all affected projects:**
-
-    ```bash
-    make typecheck
-    ```
-
-  * **Run tests for all affected projects:**
-
-    ```bash
-    make test
-    ```
-
-  * **Build all affected projects (JS/TS apps/libs):**
-
-    ```bash
-    make build
-    ```
-
-  * **Serve a specific application (e.g., React frontend or Python API):**
-
-    ```bash
-    make serve PROJECT=my-react-app
-    make serve PROJECT=my-fastapi-service
-    ```
-
-  * **Visualize the Nx dependency graph:**
-
-    ```bash
-    make graph
-    ```
-
-### 🌍 Infrastructure-as-Code (IaC)
-
-  * **Run a plan for an IaC target (e.g., Terraform VPC stack):**
-
-    ```bash
-    make infra-plan TARGET=vpc
-    ```
-
-    *Requires an Nx project named `infrastructure` with a `plan-<TARGET>` task.*
-
-  * **Apply changes for an IaC target (e.g., Kubernetes cluster):**
-
-    ```bash
-    make infra-apply TARGET=kubernetes-cluster
-    ```
-
-    *Requires an Nx project named `infrastructure` with an `apply-<TARGET>` task.*
-
-  * **Run an Ansible playbook:**
-
-    ```bash
-    make ansible-run PLAYBOOK=deploy-edge-nodes HOSTS=production-cluster
-    ```
-
-    *Requires an Nx project named `ansible-playbooks` with a `run-<PLAYBOOK>` task.*
-
-### 📦 Containerization (Microservices)
-
-  * **Build a Docker image for any application:**
-    ```bash
-    make containerize PROJECT=my-fastapi-service
-    ```
-    *Requires a `Dockerfile` in the project's root and a `container` target in its `project.json`.*
-
------
-
-## 🧹 Cleanup
-
-  * **Clean build artifacts and caches:**
-    ```bash
-    make clean
-    ```
-    *Use with caution\! This removes `node_modules`, `.venv`, and Nx caches. You'll need to run `make setup` again to restore the environment.*
-
------
-
-## ⚙️ Customization & Advanced Usage
-
-  * **`Makefile` Variables:** Adjust `PYTHON_VERSION`, `NX_PYTHON_PLUGIN_VERSION`, and `RUST_TOOLCHAIN_UV_INSTALL` directly in the `Makefile` if needed.
-  * **Custom Nx Generators:** The `libs/shared-python-tools` plugin contains the `generator.ts` files that define how new Python projects are structured and configured. Feel free to modify them to fit specific architectural patterns or add new default dependencies/tools.
-  * **`pyproject.toml`:** For project-specific Python dependencies, edit the `pyproject.toml` inside your individual `apps/<project-name>` or `libs/<project-name>` directories, then run `pnpm nx run <project-name>:install-deps` (or use `make app`/`make lib` for new projects which does it automatically).
-  * **`project.json`:** Each Nx project (including your Python and IaC ones) has a `project.json`. This is where specific tasks (like `container`, `infra-plan`, `infra-apply`) are defined using `nx:run-commands`. You'll customize these as you build out your IaC and microservice projects.
-
------
+# Run Ansible playbooks
+make ansible-run PLAYBOOK=setup-jetson HOSTS=edge-nodes
+```
+
+### 🐳 Containerization
+
+```bash
+# Build Docker image for any service
+make containerize PROJECT=inference
+
+# Deploy to Kubernetes
+make deploy-k8s-dev PROJECT=inference
+```
+
+---
+
+## 🎯 Key Features
+
+### 🔄 **Automated ML Lifecycle**
+- 📊 **Data Versioning** with DVC integration
+- 🎯 **Model Training** via ZenML pipelines
+- 📈 **Experiment Tracking** with MLFlow
+- 🚀 **Auto-Deployment** of best models
+- 📊 **Continuous Monitoring** and feedback
+
+### ⚡ **Edge-Optimized Inference**
+- 🎯 **Jetson Optimization** with TensorRT quantization
+- 🔀 **Smart Routing** via LiteLLM
+- 🏥 **Health Monitoring** with automatic failover
+- 📊 **Performance Tracking** (p95 < 200ms target)
+
+### 🧠 **Intelligent Prompt Engineering**
+- 🎯 **DSPy Integration** for prompt optimization
+- 📊 **A/B Testing** for prompt comparison
+- 🔄 **Iterative Improvement** cycles
+- 📈 **Performance Analytics** and tracking
+
+### 💬 **Human-in-the-Loop Learning**
+- 👥 **Feedback Collection** interfaces
+- 🏆 **Preference Learning** systems
+- 🔄 **RLHF Integration** pipelines
+- 🚨 **Auto-Retraining** triggers
+
+---
+
+## 🛠️ Development Tools
+
+### 🐍 **Python Toolchain**
+- **pyenv** - Python version management
+- **uv** - Lightning-fast dependency resolution
+- **ruff** - High-performance linting and formatting
+- **mypy** - Static type checking
+- **pytest** - Comprehensive testing framework
+
+### 🔧 **Monorepo Management**
+- **Nx** - Smart build system with dependency tracking
+- **pnpm** - Efficient package management
+- **Make** - Simple, powerful task orchestration
+- **Pre-commit** - Automated code quality checks
+
+---
+
+## 📊 Monitoring & Observability
+
+### 📈 **Metrics & Dashboards**
+- 📊 **Prometheus** - Metrics collection and alerting
+- 📊 **Grafana** - Beautiful, interactive dashboards
+- 📝 **Loki** - Log aggregation and search
+- 🔍 **Jaeger** - Distributed tracing
+
+### 🚨 **Alerting & SLAs**
+- ⚡ **Inference Latency** - p95 < 200ms
+- 🏥 **Service Uptime** - 99.5% availability
+- 🔔 **Pipeline Failures** - Slack notifications
+- 📊 **Performance Degradation** - Automated alerts
+
+---
+
+## 🔒 Security & Compliance
+
+### 🛡️ **Security Features**
+- 🔐 **Vault Integration** - Centralized secrets management
+- 🌐 **Tailscale Mesh** - Secure network isolation
+- 🔑 **TLS Everywhere** - End-to-end encryption
+- 👥 **RBAC** - Role-based access control
+
+### 📝 **Compliance**
+- 🚫 **No PII** in training data
+- 🔒 **Data Encryption** at rest and in transit
+- 📊 **Audit Logging** for all operations
+- 🔍 **Traceability** for every model and dataset
+
+---
+
+## 🎯 Implementation Roadmap
+
+| Priority | Feature | Status |
+|----------|---------|--------|
+| 🔥 **High** | Core Nx monorepo with apps | ✅ Complete |
+| 🔥 **High** | Orchestrator + fine-tuning | 🚧 In Progress |
+| 🔥 **High** | LiteLLM inference with health checks | 📋 Planned |
+| 🔶 **Medium** | Feature store + data versioning | 📋 Planned |
+| 🔶 **Medium** | DSPy prompt optimization | 📋 Planned |
+| 🔶 **Medium** | Telemetry and monitoring | 📋 Planned |
+| 🔵 **Low** | Multi-cluster ArgoCD | 🔮 Future |
+| 🔵 **Low** | Advanced RLHF pipelines | 🔮 Future |
+
+---
 
 ## 🤝 Contributing
 
-This is designed as a personal starter kit, but feedback or suggestions for improvements are always welcome\!
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### 🧹 Cleanup & Maintenance
+
+```bash
+# Clean all build artifacts and caches
+make clean
+
+# Reinstall everything
+make setup
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- 🧠 **Nx Team** - For the amazing monorepo tooling
+- 🐍 **Python Community** - For the incredible ecosystem
+- 🤖 **AI/ML Community** - For pushing the boundaries of what's possible
+- 🏠 **Homelab Community** - For inspiring self-hosted innovation
+
+---
+
+<div align="center">
+
+**Built with ❤️ for the AI-Native Future**
+
+[Documentation](docs/) • [Issues](issues/) • [Discussions](discussions/)
+
+</div>
